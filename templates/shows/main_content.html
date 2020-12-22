@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <!-- carousel -->
+    {% include 'inc/carousel.html' %}
+
+    <!-- main content -->
+    <div class="row">
+        {% for movie in movies_list %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    {% if movie.poster %}
+                        <a href="{{ movie.get_absolute_url }}"><img class="card-img-top" src="{{ movie.poster.url }}"
+                                                                    alt=""></a>
+                    {% else %}
+                        <a href="{{ movie.get_absolute_url }}"><img class="card-img-top" src="/media/no_poster.png"
+                                                                    alt=""></a>
+                    {% endif %}
+
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            <a href="{{ movie.get_absolute_url }}">{% firstof movie.first_title movie.second_title %} </a>
+                        </h4>
+                        {% if movie.description %}
+                            <p class="card-text">{{ movie.description|truncatechars:100 }}</p>
+                        {% else %}
+                            <p class="card-text">Описание недоступно...</p>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">IMDB: {{ movie.imdb|floatformat }}
+                            Kinopoisk: {{ movie.kp|floatformat:2 }}</small>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- pagination -->
+    {% include 'inc/pagination.html' %}
+
+{% endblock %}
+
+
+

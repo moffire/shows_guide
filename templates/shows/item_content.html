@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <div class="card mt-4">
+        {% if movie.poster.url %}
+            <img class="card-img-top img-fluid" src="{{ movie.poster.url }}" alt="">
+        {% else %}
+            <img class="card-img-top img-fluid" src="/media/no_poster.png" alt="">
+        {% endif %}
+
+        <div class="card-body">
+            {% if movie.first_title %}
+                <h3 class="card-title">{{ movie.first_title }}</h3>
+                <small class="text-muted">{{ movie.second_title }}</small><br>
+                <small class="text-muted">IMDB: {{ movie.imdb|floatformat }}
+                    Kinopoisk: {{ movie.kp|floatformat:2 }}</small>
+            {% else %}
+                <h3 class="card-title">{{ movie.second_title }}</h3>
+                <small class="text-muted">IMDB: {{ movie.imdb|floatformat }}
+                    Kinopoisk: {{ movie.kp|floatformat:2 }}</small>
+            {% endif %}
+            <p class="card-text">{{ movie.description }}</p>
+        </div>
+    </div>
+
+    <div class="card card-outline-secondary my-4">
+        <div class="card-header">
+            Сезоны
+        </div>
+        <table class="card-table table">
+            {% for season in movie.seasons.all reversed %}
+                <thead class="thead-light">
+                <tr>
+                    <th>Сезон №{{ season.number }}</th>
+                    <th>Серия</th>
+                    <th>Дата выхода</th>
+                    <th>Статус</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for episode in season.episodes.all %}
+                    <tr>
+                        <td>{{ episode.number }}</td>
+                        <td>{{ episode.name }}</td>
+                        <td>{{ episode.date|date:"d.m.Y" }}</td>
+                        <td>Просмотрено</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            {% endfor %}
+        </table>
+    </div>
+    <a href="#" class="btn btn-success col-md-3 mb-3">Подписаться</a>
+{% endblock %}
