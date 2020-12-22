@@ -1,8 +1,8 @@
 <div class="col-lg-3">
     <h1 class="my-4">Рейтинги</h1>
     <div class="list-group">
-        <a href="{% url 'shows:main_page' rating='top_250' %}" class="list-group-item">ТОП 250 сериалов</a>
-        <a href="{% url 'shows:main_page' rating='top_imdb' %}" class="list-group-item">ТОП IMDB</a>
-        <a href="{% url 'shows:main_page' rating='top_kp' %}" class="list-group-item">ТОП Кинопоиск</a>
+        <a href="{% url 'shows:rating' rating='top_250' %}" class="list-group-item">ТОП 250 сериалов</a>
+        <a href="{% url 'shows:rating' rating='top_imdb' %}" class="list-group-item">ТОП IMDB</a>
+        <a href="{% url 'shows:rating' rating='top_kp' %}" class="list-group-item">ТОП Кинопоиск</a>
     </div>
 </div>
