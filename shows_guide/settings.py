@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'collector.apps.CollectorConfig',
     'shows.apps.ShowsConfig',
     'django.contrib.postgres',
+    'accounts',
 
     # 3rd party
     'django_extensions',
@@ -135,3 +136,6 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+# custom auth user model
+AUTH_USER_MODEL = 'accounts.CustomUser'
