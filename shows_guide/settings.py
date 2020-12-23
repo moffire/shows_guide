@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # local
     'collector.apps.CollectorConfig',
     'shows.apps.ShowsConfig',
+    'django.contrib.postgres',
 
     # 3rd party
     'django_extensions',

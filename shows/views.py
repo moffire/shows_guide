@@ -1,17 +1,20 @@
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.db.models import Q
-from django.contrib.postgres.search import SearchVector, SearchQuery
+from django.contrib.postgres.search import SearchVector
 
 from .models import Movie
 
 
-class MainView(ListView):
+class BaseListView(ListView):
 	model = Movie
 	ordering = ('-imdb',)
 	paginate_by = 9
 	template_name = 'shows/main_content.html'
 	context_object_name = 'movies_list'
+
+
+class MainPageView(BaseListView):
 	allow_empty = False
 
 	def get_context_data(self, **kwargs):
@@ -22,12 +25,7 @@ class MainView(ListView):
 		return context
 
 
-class RatingView(ListView):
-	model = Movie
-	ordering = ('-imdb',)
-	paginate_by = 9
-	template_name = 'shows/main_content.html'
-	context_object_name = 'movies_list'
+class RatingView(BaseListView):
 
 	def get_queryset(self):
 		rating = self.kwargs.get('rating', None)
@@ -49,22 +47,7 @@ class RatingView(ListView):
 				return Movie.objects.order_by('-kp')[:100]
 
 
-class MovieDetail(DetailView):
-	model = Movie
-	template_name = 'shows/item_content.html'
-	context_object_name = 'movie'
-	pk_url_kwarg = 'external_id'
-
-	def get_object(self, queryset=None):
-		movie = get_object_or_404(Movie.objects.select_related(), external_id=self.kwargs['external_id'])
-		return movie
-
-
-class SearchView(ListView):
-	model = Movie
-	paginate_by = 9
-	template_name = 'shows/main_content.html'
-	context_object_name = 'movies_list'
+class SearchView(BaseListView):
 	allow_empty = True
 
 	def get_queryset(self):
@@ -78,5 +61,15 @@ class SearchView(ListView):
 		if search_params:
 			context['q'] = f"q={self.request.GET.get('q', None)}&"
 
-		# context['random_top_movies'] = Movie.objects.filter(imdb__gte=9).order_by('-kp')[:10]
 		return context
+
+
+class MovieDetail(DetailView):
+	model = Movie
+	template_name = 'shows/item_content.html'
+	context_object_name = 'movie'
+	pk_url_kwarg = 'external_id'
+
+	def get_object(self, queryset=None):
+		movie = get_object_or_404(Movie.objects.select_related(), external_id=self.kwargs['external_id'])
+		return movie
