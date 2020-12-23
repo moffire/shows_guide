@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="login-form col-lg-5">
+        <form method="post" action="{% url 'login' %}">
+
+            {% include 'inc/form_errors.html' %}
+
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="usernamefield" class="form-label">Имя пользователя</label>
+                <input type="text" class="form-control" id="usernamefield" name="username">
+            </div>
+            <div class="mb-3">
+                <label for="passwordfield" class="form-label">Пароль</label>
+                <input type="password" class="form-control" id="passwordfield" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Войти</button>
+        </form>
+    </div>
+{% endblock %}
