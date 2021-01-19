@@ -18,11 +18,11 @@
                         <!-- user profile logo -->
                         {% if not user.is_authenticated %}
                             <a href="{% url 'login' %}">
-                                <img src="/media/default_logos/not_auth.jpeg" class="rounded-circle" width="40" alt="">
+                                <img src="/media/default_logos/not_auth.jpeg" class="rounded-circle" width="40" height="40" alt="">
                             </a>
                         {% else %}
                             <a href="{% url 'profile:profile' %}">
-                                <img src="/media/default_logos/default_user_logo.png" class="rounded-circle" width="40" alt="">
+                                <img src="{{ user.profile.avatar.url }}" class="rounded-circle" width="40" height="40" alt="">
                             </a>
                         {% endif %}
                     </div>
