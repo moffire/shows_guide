@@ -3,7 +3,7 @@ from django.db import models
 from django.urls import reverse
 
 class Movie(models.Model):
-	external_id = models.IntegerField(db_index=False, unique=True)
+	external_id = models.IntegerField(unique=True)
 	first_title = models.CharField(max_length=200, blank=True, db_index=True)
 	second_title = models.CharField(max_length=200, blank=True, db_index=True)
 	description = models.TextField(max_length=1000, blank=True)
@@ -28,7 +28,7 @@ class Movie(models.Model):
 
 
 class Season(models.Model):
-	movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='seasons', to_field='external_id')
+	movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='seasons')
 	number = models.IntegerField()
 
 	def __str__(self):
@@ -36,7 +36,7 @@ class Season(models.Model):
 
 
 class Episode(models.Model):
-	movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='episodes', to_field='external_id')
+	movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='episodes')
 	season = models.ForeignKey(Season, on_delete=models.CASCADE, related_name='episodes')
 	number = models.IntegerField()
 	name = models.CharField(max_length=200, blank=True)
